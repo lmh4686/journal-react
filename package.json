@@ -8,7 +8,7 @@
     "build": "vite build",
     "preview": "vite preview",
     "test": "vitest",
-    "start": "npm run start"
+    "start": "vite preview"
   },
   "dependencies": {
     "react": "^18.2.0",
