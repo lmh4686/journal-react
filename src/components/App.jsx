@@ -1,33 +1,12 @@
-import React, { useEffect, useState, useReducer } from "react"
+import React, { useEffect, useReducer } from "react"
 import { Routes, Route, useParams, useNavigate } from "react-router-dom"
 import Navbar from "./Navbar"
 import CategorySelection from "./CategorySelection"
 import Home from "./Home"
 import NewEntry from "./NewEntry"
 import ShowEntry from "./ShowEntry"
-
-
-function reducer(state, action) {
-  switch (action.type) {
-    case "addEntry":
-      return {
-        ...state,
-        entries: [...state.entries, action.newEntry],
-      }
-    case "setEntries":
-      return {
-        ...state,
-        entries: action.entries,
-      }
-    case "setCategories":
-      return {
-        ...state,
-        categories: action.categories,
-      }
-    default:
-      return state
-  }
-}
+import reducer from "../reducer"
+import JournalContext from "../context"
 
 const initialState = {
   entries: [],
@@ -41,8 +20,6 @@ const App = () => {
   const { entries, categories } = state
 
   const nav = useNavigate()
-
-
 
   useEffect(() => {
     // To use async function should be this way.
@@ -110,19 +87,19 @@ const App = () => {
   }
 
   return (
-    <>
-        <Navbar />
-        <Routes>
-          <Route path="/" element={<Home entries={entries}/>} />
-          <Route path="/category" element={<CategorySelection categories={categories} />} />
-          <Route path="/entry/:id" element={<ShowEntryWrapper />} />
-          <Route path="/entry/new/:category" element={<NewEntry addEntry={addEntry} />} />
-          <Route path="*" element={<h4>Page not found!</h4>} />
-        </Routes>
+    <JournalContext.Provider value={{ state, dispatch }}>
+      <Navbar />
+      <Routes>
+        <Route path="/" element={<Home entries={entries}/>} />
+        <Route path="/category" element={<CategorySelection categories={categories} />} />
+        <Route path="/entry/:id" element={<ShowEntryWrapper />} />
+        <Route path="/entry/new/:category" element={<NewEntry addEntry={addEntry} />} />
+        <Route path="*" element={<h4>Page not found!</h4>} />
+      </Routes>
       {/* <Home />
             <CategorySelection />
             <NewEntry /> */}
-    </>
+    </JournalContext.Provider>
   )
 }
 
