@@ -66,7 +66,7 @@ const App = () => {
       content: content
     }
 
-    const returnedEntry = await fetch('https://journal-api-production-98a0.up.railway.app/entries', {
+    const returnedEntry = await fetch('https://journal-api-production-98a0.up.railway.app/categories', {
       method: 'POST',
       headers: {
         //No need quote for single word key
