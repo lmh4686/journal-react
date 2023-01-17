@@ -5,10 +5,8 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "localbuild": "vite build --mode=production",
-    "preview": "vite preview",
-    "test": "vitest",
-    "start": "vite preview --host"
+    "build": "vite build",
+    "preview": "vite preview"
   },
   "dependencies": {
     "react": "^18.2.0",
@@ -17,8 +15,8 @@
   },
   "devDependencies": {
     "@types/react": "^18.0.26",
-    "vite": "^4.0.0",
     "@types/react-dom": "^18.0.9",
-    "@vitejs/plugin-react-swc": "^3.0.0"
+    "@vitejs/plugin-react-swc": "^3.0.0",
+    "vite": "^4.0.0"
   }
 }

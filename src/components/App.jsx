@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react"
+import React, { useEffect, useState, useReducer } from "react"
 import { Routes, Route, useParams, useNavigate } from "react-router-dom"
 import Navbar from "./Navbar"
 import CategorySelection from "./CategorySelection"
@@ -6,23 +6,54 @@ import Home from "./Home"
 import NewEntry from "./NewEntry"
 import ShowEntry from "./ShowEntry"
 
-// const seedEntries = [
-//   {category: 'Food', content: 'Pizza is awesome!'},
-//   {category: 'Work', content: 'Another dat!'},
-//   {category: 'Coding', content: 'React is awesome!'},
-// ]
+
+function reducer(state, action) {
+  switch (action.type) {
+    case "addEntry":
+      return {
+        ...state,
+        entries: [...state.entries, action.newEntry],
+      }
+    case "setEntries":
+      return {
+        ...state,
+        entries: action.entries,
+      }
+    case "setCategories":
+      return {
+        ...state,
+        categories: action.categories,
+      }
+    default:
+      return state
+  }
+}
+
+const initialState = {
+  entries: [],
+  categories: [],
+}
 
 const App = () => {
-  const [entries, setEntries] = useState([])
+  // const [entries, setEntries] = useState([])
+  // const [categories, setCategories] = useState([])
+  const [state, dispatch] = useReducer(reducer, initialState)
+  const { entries, categories } = state
+
   const nav = useNavigate()
-  const [categories, setCategories] = useState([])
+
+
 
   useEffect(() => {
     // To use async function should be this way.
     async function getCategories() {
-      const res = await fetch('https://journal-api-production-1d42.up.railway.app/categories')
+      const res = await fetch('http://localhost:4001/categories')
       const data = await res.json()
-      setCategories(data)
+      // setCategories(data)
+      dispatch({
+        type: "setCategories",
+        categories: data,
+      })
     }
     getCategories()
   }, [])
@@ -31,9 +62,13 @@ const App = () => {
   useEffect(() => {
     // To use async function should be this way.
     async function fetchEntries() {
-      const res = await fetch('https://journal-api-production-1d42.up.railway.app/entries')
+      const res = await fetch('http://localhost:4001/entries')
       const data = await res.json()
-      setEntries(data)
+      // setEntries(data)
+      dispatch({
+        type: "setEntries",
+        entries: data
+      })
     }
     fetchEntries()
   }, [])
@@ -54,7 +89,7 @@ const App = () => {
       content: content
     }
 
-    const returnedEntry = await fetch('https://journal-api-production-1d42.up.railway.app/entries', {
+    const returnedEntry = await fetch('http://localhost:4001/entries', {
       method: 'POST',
       headers: {
         //No need quote for single word key
@@ -66,7 +101,11 @@ const App = () => {
       body: JSON.stringify(newEntry)
     })
     const data = await returnedEntry.json()
-    setEntries([...entries, data])
+    // setEntries([...entries, data])
+    dispatch({
+      type: "addEntry",
+      newEntry: data
+    })
     nav(`/entry/${id}`)
   }
 
