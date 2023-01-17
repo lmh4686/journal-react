@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from 'react'
+import React, { useContext } from 'react'
 import { Link } from 'react-router-dom'
+import JournalContext from '../context'
 
-const CategorySelection = ({ categories }) => {
-
+const CategorySelection = () => {
+  const { state: { categories } } = useContext(JournalContext)
   return (
     <>
       <h2>Please select a category:</h2>
