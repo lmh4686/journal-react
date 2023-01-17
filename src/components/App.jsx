@@ -24,7 +24,7 @@ const App = () => {
   useEffect(() => {
     // To use async function should be this way.
     async function getCategories() {
-      const res = await fetch('http://localhost:4001/categories')
+      const res = await fetch('https://journal-api-production-98a0.up.railway.app/categories')
       const data = await res.json()
       // setCategories(data)
       dispatch({
@@ -39,7 +39,7 @@ const App = () => {
   useEffect(() => {
     // To use async function should be this way.
     async function fetchEntries() {
-      const res = await fetch('http://localhost:4001/entries')
+      const res = await fetch('https://journal-api-production-98a0.up.railway.app/entries')
       const data = await res.json()
       // setEntries(data)
       dispatch({
@@ -66,7 +66,7 @@ const App = () => {
       content: content
     }
 
-    const returnedEntry = await fetch('http://localhost:4001/entries', {
+    const returnedEntry = await fetch('https://journal-api-production-98a0.up.railway.app/entries', {
       method: 'POST',
       headers: {
         //No need quote for single word key
